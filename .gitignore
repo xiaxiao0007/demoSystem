@@ -30,7 +30,7 @@ build/
 !**/src/test/**/build/
 
 
-
+app/node_modules
 
 
 

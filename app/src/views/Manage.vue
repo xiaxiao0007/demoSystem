@@ -1,12 +1,10 @@
 <template>
-<div>
-  <h1>我是主页</h1>
-</div>
+  <router-view></router-view>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "Manage"
 }
 </script>
 

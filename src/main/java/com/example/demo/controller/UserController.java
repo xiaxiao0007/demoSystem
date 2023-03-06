@@ -1,17 +1,30 @@
 package com.example.demo.controller;
 
 
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
+
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.service.IUserService;
 import com.example.demo.entity.User;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -68,6 +81,49 @@ public class UserController {
             queryWrapper.like(!"".equals(address),"address",address);
             queryWrapper.orderByDesc("id");
         return userService.page(new Page<>(pageNum, pageSize),queryWrapper);
+    }
+
+    /*
+    * 导出数据
+    * */
+    @GetMapping("/export")
+    public void export(HttpServletResponse response) throws Exception{
+        // 从数据库中查询数据
+        List<User> list = userService.list();
+        // 在内存操作，写出浏览器
+        ExcelWriter writer= ExcelUtil.getWriter(true);
+        // 自定义标题名
+        writer.addHeaderAlias("username","用户名");
+        writer.addHeaderAlias("password","密码");
+        writer.addHeaderAlias("nickname","昵称");
+        writer.addHeaderAlias("phone","电话");
+        writer.addHeaderAlias("email","邮箱");
+        writer.addHeaderAlias("address","地址");
+        writer.addHeaderAlias("createTime","创建时间");
+
+        // 一次性写到excel中
+        writer.write(list,true);
+
+        // 设置浏览器的响应格式
+        response.setContentType("application/vnd.openxmlformats-officdocument.spreadsheetml.sheet;charset=utf-8");
+        String fileName = URLEncoder.encode("用户信息","utf-8");
+        response.setHeader("Content-Disposition","attachment;filename="+fileName+".xlsx");
+
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out,true);
+        out.close();
+        writer.close();
+    }
+
+    /*
+    * 数据的导入
+    * */
+    @PostMapping("/import")
+    public boolean imp(MultipartFile file) throws Exception{
+        InputStream inputStream = file.getInputStream();
+        ExcelReader reader = ExcelUtil.getReader(inputStream);
+        List<User> list = reader.readAll(User.class);
+        return userService.saveBatch(list);
     }
 
 }

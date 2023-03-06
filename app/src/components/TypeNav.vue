@@ -18,8 +18,6 @@
           <span slot="title">主页</span>
       </el-menu-item>
       <el-submenu index="">
-      </el-menu-item>
-      <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">系统管理</span>

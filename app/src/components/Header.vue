@@ -31,7 +31,6 @@ export default {
   methods:{
     collapse() {  // 点击收缩按钮触发
       this.isCollapse_Header= !this.isCollapse_Header
-      this.isCollapse_Header = !this.isCollapse_Header
       if (this.isCollapse_Header) {  // 收缩
         this.collapseBtnClass = 'el-icon-s-unfold'
         this.$bus.$emit('show',{isCollapse:this.isCollapse_Header,sideWidth:64,logoTextShow:false})

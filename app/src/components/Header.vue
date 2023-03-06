@@ -30,11 +30,8 @@ export default {
   props:['isCollapse'],
   methods:{
     collapse() {  // 点击收缩按钮触发
-<<<<<<< HEAD
       this.isCollapse_Header= !this.isCollapse_Header
-=======
       this.isCollapse_Header = !this.isCollapse_Header
->>>>>>> 963f2ef91c127a140d986ca8d509bd3170206a78
       if (this.isCollapse_Header) {  // 收缩
         this.collapseBtnClass = 'el-icon-s-unfold'
         this.$bus.$emit('show',{isCollapse:this.isCollapse_Header,sideWidth:64,logoTextShow:false})

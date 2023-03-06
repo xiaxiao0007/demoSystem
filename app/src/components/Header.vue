@@ -19,18 +19,19 @@ export default {
   data(){
     return{
       collapseBtnClass: 'el-icon-s-fold',
+      isCollapse_Header:this.isCollapse,
     }
   },
   props:['isCollapse'],
   methods:{
     collapse() {  // 点击收缩按钮触发
-      this.isCollapse = !this.isCollapse
-      if (this.isCollapse) {  // 收缩
+      this.isCollapse_Header = !this.isCollapse_Header
+      if (this.isCollapse_Header) {  // 收缩
         this.collapseBtnClass = 'el-icon-s-unfold'
-        this.$bus.$emit('show',{isCollapse:this.isCollapse,sideWidth:64,logoTextShow:false})
+        this.$bus.$emit('show',{isCollapse:this.isCollapse_Header,sideWidth:64,logoTextShow:false})
       } else {   // 展开
         this.collapseBtnClass = 'el-icon-s-fold'
-        this.$bus.$emit('show',{isCollapse:this.isCollapse,sideWidth:200,logoTextShow:true})
+        this.$bus.$emit('show',{isCollapse:this.isCollapse_Header,sideWidth:200,logoTextShow:true})
       }
     },
   },

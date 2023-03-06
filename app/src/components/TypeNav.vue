@@ -5,7 +5,7 @@
              text-color="#fff"
              active-text-color="#ffd04b"
              :collapse-transition="false"
-             :collapse="isCollapse"
+             :collapse="isCollapse_Type"
     >
       <div style="height: 60px; line-height: 60px; text-align: center">
         <img src="../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; margin-right: 5px">
@@ -76,12 +76,13 @@ export default {
     return {
       sideWidth: 200,
       logoTextShow: true,
+      isCollapse_Type: this.isCollapse,
     }
   },
   props:['isCollapse'],
   mounted() {
     this.$bus.$on('show',(data) =>{
-      this.isCollapse = data.isCollapse
+      this.isCollapse_Type = data.isCollapse
       this.sideWidth = data.sideWidth
       this.logoTextShow = data.logoTextShow
     })

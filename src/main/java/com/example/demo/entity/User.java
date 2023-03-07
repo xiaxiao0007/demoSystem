@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import cn.hutool.core.annotation.Alias;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -50,5 +49,7 @@ public class User implements Serializable {
 
     @Alias("创建时间")
     private LocalDateTime createTime;
+    @Alias("头像地址")
+    private String avatarUrl;
 
 }

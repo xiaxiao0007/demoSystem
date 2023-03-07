@@ -92,14 +92,17 @@ public class UserController {
         List<User> list = userService.list();
         // 在内存操作，写出浏览器
         ExcelWriter writer= ExcelUtil.getWriter(true);
-        // 自定义标题名
-        writer.addHeaderAlias("username","用户名");
-        writer.addHeaderAlias("password","密码");
-        writer.addHeaderAlias("nickname","昵称");
-        writer.addHeaderAlias("phone","电话");
-        writer.addHeaderAlias("email","邮箱");
-        writer.addHeaderAlias("address","地址");
-        writer.addHeaderAlias("createTime","创建时间");
+        // 自定义标题名,如果在实体类中使用hutool注解的别名，可以直接导出，不需要写下面的代码
+        // writer.addHeaderAlias("username","用户名");
+        // writer.addHeaderAlias("password","密码");
+        // writer.addHeaderAlias("nickname","昵称");
+        // writer.addHeaderAlias("phone","电话");
+        // writer.addHeaderAlias("email","邮箱");
+        // writer.addHeaderAlias("address","地址");
+        // writer.addHeaderAlias("createTime","创建时间");
+
+        // 默认的，未添加alias的属性也会写出，如果想只写出加了别名的字段，可以调用此方法排除之
+        // writer.setOnlyAlias(true);
 
         // 一次性写到excel中
         writer.write(list,true);

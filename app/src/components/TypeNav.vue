@@ -22,7 +22,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">系统管理</span>
         </template>
-          <el-menu-item index="1-1">
+          <el-menu-item index="/user">
             <i class="el-icon-s-custom"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>

@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.common.Result;
 import com.example.demo.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.demo.entity.UserDTO;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    Result login(UserDTO userDTO);
 }

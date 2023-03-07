@@ -3,13 +3,13 @@
     <div style="flex: 1;">
       <span :class="collapseBtnClass" style="cursor: pointer;font-size: 18px" @click="collapse"></span>
       <el-breadcrumb separator="/" style="display: inline-block;margin-left: 10px;">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/manage/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>{{$route.meta.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
     <el-dropdown style="width: 70px; cursor: pointer">
-      <span>王小虎</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+      <span>{{ user.nickname }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>个人信息</el-dropdown-item>
         <el-dropdown-item>退出</el-dropdown-item>
@@ -25,6 +25,7 @@ export default {
     return{
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse_Header:this.isCollapse,
+      user:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   props:['isCollapse'],

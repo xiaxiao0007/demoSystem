@@ -3,37 +3,13 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path:'/',
-    name:'',
-    redirect: '/home',
-    component: () => import('../views/Manage.vue'),
-    children: [
-      {
-        path:'home',
-        name:'home',
-        component:() => import('../views/Home.vue'),
-        meta:{
-          name:'首页',
-        }
-      },
-      {
-        path: 'user',
-        name:'user',
-        component: () => import('../views/User.vue'),
-        meta:{
-          name:'用户管理'
-        }
-      },
-    ],
-  },
-]
+import routers from "@/router/routers";
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  // 配置路由
+  routes:routers,
 })
 
 export default router

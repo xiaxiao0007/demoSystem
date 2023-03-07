@@ -7,6 +7,8 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.common.Result;
+import com.example.demo.entity.UserDTO;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
@@ -127,6 +129,14 @@ public class UserController {
         ExcelReader reader = ExcelUtil.getReader(inputStream);
         List<User> list = reader.readAll(User.class);
         return userService.saveBatch(list);
+    }
+
+    /*
+    * 登录验证
+    * */
+    @PostMapping("/login")
+    public Result login(@RequestBody UserDTO userDTO){
+        return userService.login(userDTO);
     }
 
 }

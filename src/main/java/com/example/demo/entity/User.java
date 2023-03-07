@@ -51,5 +51,4 @@ public class User implements Serializable {
     @Alias("创建时间")
     private LocalDateTime createTime;
 
-
 }

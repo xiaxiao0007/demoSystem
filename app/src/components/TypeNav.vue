@@ -13,7 +13,7 @@
         <b style="color: white" v-show="logoTextShow">后台管理系统</b>
       </div>
 
-      <el-menu-item index="/">
+      <el-menu-item index="/manage">
           <i class="el-icon-s-home"></i>
           <span slot="title">主页</span>
       </el-menu-item>
@@ -22,7 +22,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">系统管理</span>
         </template>
-          <el-menu-item index="/user">
+          <el-menu-item index="/manage/user">
             <i class="el-icon-s-custom"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>

@@ -8,11 +8,20 @@
       </el-breadcrumb>
     </div>
 
-    <el-dropdown style="width: 70px; cursor: pointer">
-      <span>{{ user.nickname }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>个人信息</el-dropdown-item>
-        <el-dropdown-item>退出</el-dropdown-item>
+    <el-dropdown style="width: 100px; cursor: pointer">
+      <div style="display: inline-block">
+        <!-- 图片地址只需要取存放目录就行 -->
+        <img :src="request.defaults.baseURL+user.avatarUrl" alt=""
+             style="width: 30px; border-radius: 50%; position: relative; top: 10px; right: 5px">
+        <span style=" ">{{ user.nickname }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+      </div>
+      <el-dropdown-menu slot="dropdown" style="width: 100px; text-align: center">
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <router-link to="/person" style="text-decoration: none">个人信息</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <span style="text-decoration: none" @click="logout">退出</span>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-header>
@@ -25,7 +34,7 @@ export default {
     return{
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse_Header:this.isCollapse,
-      user:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+      user: sessionStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   props:['isCollapse'],
@@ -40,6 +49,11 @@ export default {
         this.$bus.$emit('show',{isCollapse:this.isCollapse_Header,sideWidth:200,logoTextShow:true})
       }
     },
+    logout(){
+      this.$router.push("/login")
+      sessionStorage.removeItem("user");
+      this.$message.success("退出成功")
+    }
   },
 }
 </script>

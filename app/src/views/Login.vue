@@ -40,8 +40,9 @@ export default {
       this.$refs['userForm'].validate((valid) => {
         if (valid) {  // 表单校验合法
           this.request.post("/user/login", this.user).then(res => {
+            console.log(res)
             if(res.code == 200) {
-              localStorage.setItem("user",JSON.stringify(res.data)) // 存储用户信息到浏览器中
+              sessionStorage.setItem("user",JSON.stringify(res.data)) // 存储用户信息到浏览器中
               this.$router.push("/manage")
               this.$message.success("登录成功")
             } else {

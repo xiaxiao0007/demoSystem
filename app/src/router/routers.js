@@ -1,5 +1,9 @@
 export default [
     {
+        path:'/',
+        redirect: '/login',
+    },
+    {
         path:'/manage',
         name:'manage',
         redirect: '/manage/home',
@@ -21,6 +25,14 @@ export default [
                     name:'用户管理'
                 }
             },
+            {
+                path: '/person',
+                name:'person',
+                component:() => import('../views/Person.vue'),
+                meta: {
+                    name:'个人信息'
+                }
+            },
         ],
     },
     {
@@ -28,8 +40,5 @@ export default [
         name: "login",
         component:()=> import('../views/Login.vue')
     },
-    {
-        path:'/',
-        redirect: '/login',
-    }
+
 ]

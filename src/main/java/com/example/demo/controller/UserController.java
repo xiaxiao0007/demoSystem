@@ -43,33 +43,55 @@ public class UserController {
     @Resource
     private IUserService userService;
 
+   /*
+   * 将数据统一封装到结果集中
+   * */
+
+    /*
+    * 保存数据或更新数据内容
+    * */
     @PostMapping
-    public Boolean save(@RequestBody User user) {
-        return userService.saveOrUpdate(user);
+    public Result save(@RequestBody User user) {
+        return Result.success(userService.saveOrUpdate(user));
     }
 
+    /*
+    * 根据id删除数据库中相应的用户
+    * */
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return userService.removeById(id);
+    public Result delete(@PathVariable Integer id) {
+        return Result.success(userService.removeById(id));
     }
 
+    /*
+    * 批量删除数据库中的用户
+    * */
     @PostMapping("/del/batch")
-    public boolean deleteBatch(@RequestBody List<Integer> ids){
-            return userService.removeBatchByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids){
+        return Result.success(userService.removeBatchByIds(ids));
     }
 
+    /*
+    * 查询用户的全部数据
+    * */
     @GetMapping
-    public List<User> findAll() {
-        return userService.list();
+    public Result findAll() {
+        return Result.success(userService.list());
     }
 
+    /*
+    * 根据用户id查询用户
+    * */
     @GetMapping("/{id}")
-    public List<User> findOne(@PathVariable Integer id) {
-        return userService.list();
+    public Result findOne(@PathVariable Integer id) {
+        return Result.success(userService.list());
     }
 
+    /*
+    * mybatisplus插件的自动的生成的分页器
+    * */
     @GetMapping("/page")
-    public Page<User> findPage(@RequestParam Integer pageNum,
+    public Result findPage(@RequestParam Integer pageNum,
                                @RequestParam Integer pageSize,
                                @RequestParam(defaultValue = "") String username,
                                @RequestParam(defaultValue = "") String email,
@@ -82,14 +104,14 @@ public class UserController {
             queryWrapper.like(!"".equals(email),"email", email);
             queryWrapper.like(!"".equals(address),"address",address);
             queryWrapper.orderByDesc("id");
-        return userService.page(new Page<>(pageNum, pageSize),queryWrapper);
+        return Result.success(userService.page(new Page<>(pageNum, pageSize),queryWrapper));
     }
 
     /*
     * 导出数据
     * */
     @GetMapping("/export")
-    public void export(HttpServletResponse response) throws Exception{
+    public Result export(HttpServletResponse response) throws Exception{
         // 从数据库中查询数据
         List<User> list = userService.list();
         // 在内存操作，写出浏览器
@@ -118,6 +140,8 @@ public class UserController {
         writer.flush(out,true);
         out.close();
         writer.close();
+
+        return Result.success();
     }
 
     /*
@@ -138,6 +162,34 @@ public class UserController {
     public Result login(@RequestBody UserDTO userDTO){
         return userService.login(userDTO);
     }
+
+    /*
+    * 之前没有统一封装结果的后台代码
+    * */
+    /*@PostMapping
+    public Boolean save(@RequestBody User user) {
+        return userService.saveOrUpdate(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean delete(@PathVariable Integer id) {
+        return userService.removeById(id);
+    }
+
+    @PostMapping("/del/batch")
+    public boolean deleteBatch(@RequestBody List<Integer> ids){
+            return userService.removeBatchByIds(ids);
+    }
+
+    @GetMapping
+    public List<User> findAll() {
+        return userService.list();
+    }
+
+    @GetMapping("/{id}")
+    public List<User> findOne(@PathVariable Integer id) {
+        return userService.list();
+    }*/
 
 }
 

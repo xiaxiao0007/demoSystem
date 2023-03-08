@@ -43,6 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
            throw new  ServiceException(Code.CODE_500.getCode(),"系统错误");
         }
         if(user != null){
+            // 这段代码不具有通用性，既耦合度过高
+            userDTO.setNickname(user.getNickname());
+            userDTO.setAvatarUrl(user.getAvatarUrl());
             return Result.success(userDTO);
         }else{
             throw new ServiceException(Code.CODE_600.getCode(), "用户名或密码错误");

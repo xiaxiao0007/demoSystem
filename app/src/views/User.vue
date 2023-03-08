@@ -65,7 +65,7 @@
         :current-page="pageNum"
         :page-sizes="[2, 5, 10, 20]"
         :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
+        :total="totals">
       </el-pagination>
     </div>
 
@@ -97,13 +97,11 @@
 </template>
 
 <script>
-
+import { mapGetters,mapState } from 'vuex';
 export default {
   name: "Home",
   data() {
     return {
-      tableData: [],
-      total:0,
       pageNum:1,
       pageSize:5,
       username: '',
@@ -118,14 +116,20 @@ export default {
   mounted(){
     this.getData()
   },
+  computed:{
+      ...mapState({
+        isSave:state => state.isAlterData,
+      }),
+      ...mapGetters(['tableData','totals'])
+  },
   methods: {
     getData(){
-      // 请求分页查询的数据
-      // fetch("http://localhost:9090/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize).then(res => res.json()).then(res => {
-      //   // console.log(res)
-      //   this.tableData = res.pageData
-      //   this.total = res.total
-      // })
+      /*请求分页查询的数据
+      fetch("http://localhost:9090/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize).then(res => res.json()).then(res => {
+        // console.log(res)
+        this.tableData = res.pageData
+        this.total = res.total
+      })
       this.request.get("/user/page",{
         params:{
           pageNum:this.pageNum,
@@ -135,12 +139,21 @@ export default {
           address:this.address,
         }
       }).then(res => {
-        this.tableData = res.records
-        this.total = res.total
-      })
+        // console.log(res)
+        this.tableData = res.data.records
+        this.total = res.data.total
+      })*/
+      this.$store.dispatch('getAllUserData',{
+          pageNum:this.pageNum,
+          pageSize:this.pageSize,
+          username:this.username,
+          email:this.email,
+          address:this.address,
+        }
+      )
     },
-    save() {
-      this.request.post("/user", this.form).then(res => {
+   async save() {
+      /*this.request.post("/user", this.form).then(res => {
         if (res) {
           this.$message.success("保存成功")
           this.dialogFormVisible = false
@@ -148,7 +161,15 @@ export default {
         } else {
            this.$message.error("保存失败")
         }
-      })
+      })*/
+       let result = await  this.$API.reqAddUser(this.form);
+       if(result.code == 200){
+         this.$message.success("保存成功")
+         this.dialogFormVisible = false
+         this.getData()
+       }else{
+         this.$message.error("保存失败")
+       }
     },
     handleAdd() {
       this.dialogFormVisible = true
@@ -158,21 +179,38 @@ export default {
       this.form = row
       this.dialogFormVisible = true
     },
-    del(id) {
-      this.request.delete("/user/" + id).then(res => {
+    async del(id){
+      /*this.request.delete("/user/" + id).then(res => {
         if (res) {
           this.$message.success("删除成功")
           this.getData()
         } else {
           this.$message.error("删除失败")
         }
-      })
+      })*/
+      let result = await this.$API.reqDeleteOneUser(id)
+        if (result.code == 200) {
+          this.$message.success("删除成功")
+          this.getData()
+        } else {
+          this.$message.error("删除失败")
+        }
     },
     handleSelectionChange(val) {
        this.multipleSelection = val
     },
     delBatch() {
+      // let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
+      // console.log(ids)
+      // let result = await this.$API.reqDeleteBatchUser(ids);
+      // if(result.code == 200){
+      //   this.$message.success("批量删除成功")
+      //   this.getData()
+      // } else {
+      //   this.$message.error("批量删除失败")
+      // }
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
+      console.log()
       this.request.post("/user/del/batch", ids).then(res => {
         if (res) {
           this.$message.success("批量删除成功")

@@ -51,4 +51,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException(Code.CODE_600.getCode(), "用户名或密码错误");
         }
     }
+
+    @Override
+    public Result register(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        queryWrapper.eq("password",user.getPassword());
+        User one;
+        try{
+            one = this.getOne(queryWrapper);
+        }catch (Exception e){
+            LOG.error(e);
+            throw new  ServiceException(Code.CODE_500.getCode(),"系统错误");
+        }
+        if(one == null){
+            save(user);
+        }else {
+            throw new ServiceException(Code.CODE_600.getCode(),"用户已存在");
+        }
+        return Result.success();
+    }
 }

@@ -12,3 +12,6 @@ export const reqDeleteOneUser = (data) => requests({url:"/user/"+data, method:"d
 
 // 删除一批用户
 export const reqDeleteBatchUser = (ids) => requests({url:"/user/del/batch/",data:ids, method:"post"})
+
+// 注册 数据传输到后台
+export const reqRegisterUser = (user) => requests({method:"post",data:user,url:"/user/register"})

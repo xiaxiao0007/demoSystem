@@ -92,10 +92,10 @@ public class UserController {
     * */
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
-                               @RequestParam Integer pageSize,
-                               @RequestParam(defaultValue = "") String username,
-                               @RequestParam(defaultValue = "") String email,
-                               @RequestParam(defaultValue = "") String address) {
+                           @RequestParam Integer pageSize,
+                           @RequestParam(defaultValue = "") String username,
+                           @RequestParam(defaultValue = "") String email,
+                           @RequestParam(defaultValue = "") String address) {
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             // 第一个参数：该参数是一个布尔类型，只有该参数是true时，才将like条件拼接到sql中；本例中，如果name字段不为空，则拼接name字段的like查询条件；
             // 第二个参数：该参数是数据库中的字段名；
@@ -161,6 +161,14 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody UserDTO userDTO){
         return userService.login(userDTO);
+    }
+
+    /*
+    * 用户注册
+    * */
+    @PostMapping("/register")
+    public Result register(@RequestBody User user){
+        return userService.register(user);
     }
 
     /*

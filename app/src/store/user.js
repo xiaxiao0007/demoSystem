@@ -1,4 +1,4 @@
-import { reqAllUserData,reqAddUser } from '@/api'
+import { reqAllUserData } from '@/api'
 
 const state ={
     userdata: {},

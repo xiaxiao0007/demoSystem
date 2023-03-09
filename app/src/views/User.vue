@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapGetters,mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
   name: "Home",
   data() {
@@ -117,9 +117,6 @@ export default {
     this.getData()
   },
   computed:{
-      ...mapState({
-        isSave:state => state.isAlterData,
-      }),
       ...mapGetters(['tableData','totals'])
   },
   methods: {
@@ -199,17 +196,18 @@ export default {
     handleSelectionChange(val) {
        this.multipleSelection = val
     },
-    delBatch() {
-      // let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
-      // console.log(ids)
-      // let result = await this.$API.reqDeleteBatchUser(ids);
-      // if(result.code == 200){
-      //   this.$message.success("批量删除成功")
-      //   this.getData()
-      // } else {
-      //   this.$message.error("批量删除失败")
-      // }
+    async delBatch() {
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
+      console.log(ids)
+      console.log(typeof ids)
+      let result = await this.$API.reqDeleteBatchUser(ids);
+      if(result.code == 200){
+        this.$message.success("批量删除成功")
+        this.getData()
+      } else {
+        this.$message.error("批量删除失败")
+      }
+      /*let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
       console.log()
       this.request.post("/user/del/batch", ids).then(res => {
         if (res) {
@@ -218,7 +216,7 @@ export default {
         } else {
           this.$message.error("批量删除失败")
         }
-      })
+      })*/
     },
     exp(){
       window.open("http://localhost:9090/user/export")

@@ -4,7 +4,7 @@
       <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>登 录</b></div>
       <el-form :model="user" :rules="rules" ref="userForm"> <!-- 表单验证 -->
         <el-form-item prop="username">
-          <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.username"></el-input>
+          <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.username" ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
@@ -23,7 +23,10 @@ export default {
   name: "Login",
   data() {
     return {
-      user: {},
+      user: {
+        username: "",
+        password: ""
+      },
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -36,11 +39,36 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log("sb")
+    if(sessionStorage.getItem("user")) {
+      this.user.username = JSON.parse(sessionStorage.getItem("user")).username
+      console.log(this.user.username)
+      this.user.password = JSON.parse(sessionStorage.getItem("user")).password
+    }
+  },
   methods: {
+    /*autologin(){
+      console.log("sb")
+      if(sessionStorage.getItem("user")){
+        this.user.username = JSON.parse(sessionStorage.getItem("user")).username
+        this.user.password = JSON.parse(sessionStorage.getItem("user")).password
+      }
+    },*/
     login() {
-      this.$refs['userForm'].validate((valid) => {
+      // 表达验证
+      this.$refs['userForm'].validate( async (valid) => {
         if (valid) {  // 表单校验合法
-          this.request.post("/user/login", this.user).then(res => {
+          let result = await this.$API.reqVerifyUserData(this.user)
+          console.log(result)
+          if(result.code == 200) {
+            sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
+            await this.$router.push("/manage")
+            this.$message.success("登录成功")
+          } else {
+            this.$message.error(result.msg)
+          }
+         /* this.request.post("/user/login", this.user).then(res => {
             console.log(res)
             if(res.code == 200) {
               sessionStorage.setItem("user",JSON.stringify(res.data)) // 存储用户信息到浏览器中
@@ -49,13 +77,13 @@ export default {
             } else {
               this.$message.error(res.msg)
             }
-          })
+          })*/
         } else {
           return false;
         }
       });
     }
-  }
+  },
 }
 </script>
 

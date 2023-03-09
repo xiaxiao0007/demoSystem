@@ -10,6 +10,7 @@ import com.example.demo.exception.ServiceException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -53,22 +54,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public Result register(User user) {
+    public UserDTO register(UserDTO userDTO) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",user.getUsername());
-        queryWrapper.eq("password",user.getPassword());
-        User one;
+        queryWrapper.eq("username",userDTO.getUsername());
+        queryWrapper.eq("password",userDTO.getPassword());
+        User user;
         try{
-            one = this.getOne(queryWrapper);
+            user = this.getOne(queryWrapper);
         }catch (Exception e){
             LOG.error(e);
-            throw new  ServiceException(Code.CODE_500.getCode(),"系统错误");
+            throw new ServiceException(Code.CODE_500.getCode(),"系统错误");
         }
-        if(one == null){
+        if(user == null){
+            user = new User();
+            /*user.setUsername(userDTO.getUsername());
+            user.setPassword(userDTO.getPassword());
+            user.setNickname(userDTO.getNickname());
+            user.setAvatarUrl(user.getAvatarUrl());*/
+            BeanUtils.copyProperties(userDTO,user);
             save(user);
         }else {
             throw new ServiceException(Code.CODE_600.getCode(),"用户已存在");
         }
-        return Result.success();
+        return userDTO;
     }
 }

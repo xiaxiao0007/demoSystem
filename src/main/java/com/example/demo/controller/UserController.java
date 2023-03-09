@@ -167,8 +167,8 @@ public class UserController {
     * 用户注册
     * */
     @PostMapping("/register")
-    public Result register(@RequestBody User user){
-        return userService.register(user);
+    public Result register(@RequestBody UserDTO userDTO){
+        return Result.success(userService.register(userDTO));
     }
 
     /*

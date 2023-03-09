@@ -60,12 +60,15 @@ export default {
           } else {
             let result = await this.$API.reqRegisterUser(this.user)
             if (result.code == 200) {
-              sessionStorage.setItem("user", JSON.stringify(result.data)) // 存储用户信息到浏览器中
               this.$message.success("注册成功")
+              sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
+              await this.$router.push('/login')
             } else {
               this.$message.error(result.msg)
             }
           }
+        }else{
+          return false
         }
       });
     }

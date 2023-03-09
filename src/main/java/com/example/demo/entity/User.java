@@ -49,6 +49,7 @@ public class User implements Serializable {
 
     @Alias("创建时间")
     private LocalDateTime createTime;
+
     @Alias("头像地址")
     private String avatarUrl;
 

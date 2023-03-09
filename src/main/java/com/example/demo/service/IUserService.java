@@ -17,5 +17,5 @@ public interface IUserService extends IService<User> {
 
     Result login(UserDTO userDTO);
 
-    Result register(User user);
+    UserDTO register(UserDTO user);
 }

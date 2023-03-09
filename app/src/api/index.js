@@ -11,7 +11,13 @@ export const reqAddUser = (data) =>requests({ url: "/user", data:data, method: "
 export const reqDeleteOneUser = (data) => requests({url:"/user/"+data, method:"delete"})
 
 // 删除一批用户
-export const reqDeleteBatchUser = (ids) => requests({url:"/user/del/batch/",data:ids, method:"post"})
+export const reqDeleteBatchUser = (ids) => requests({url:"/user/del/batch",data:ids, method:"post"})
+
+// 登录 验证数据
+export const reqVerifyUserData = (userData) => requests({url:"/user/login",data:userData, method:"post"})
 
 // 注册 数据传输到后台
 export const reqRegisterUser = (user) => requests({method:"post",data:user,url:"/user/register"})
+
+// 个人信息的获取
+export const reqUserInfo = (user) => requests({method:"get",params:user,url:"/user/userinfo"})

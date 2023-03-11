@@ -15,7 +15,7 @@ import com.example.demo.entity.UserDTO;
  */
 public interface IUserService extends IService<User> {
 
-    Result login(UserDTO userDTO);
+    UserDTO login(UserDTO userDTO);
 
     UserDTO register(UserDTO user);
 }

@@ -82,9 +82,9 @@ public class UserController {
     /*
     * 根据用户id查询用户
     * */
-    @GetMapping("/{id}")
+    @GetMapping("/getInfo/{id}")
     public Result findOne(@PathVariable Integer id) {
-        return Result.success(userService.list());
+        return Result.success(userService.getById(id));
     }
 
     /*
@@ -160,7 +160,7 @@ public class UserController {
     * */
     @PostMapping("/login")
     public Result login(@RequestBody UserDTO userDTO){
-        return userService.login(userDTO);
+        return Result.success(userService.login(userDTO));
     }
 
     /*

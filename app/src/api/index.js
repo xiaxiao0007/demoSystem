@@ -20,4 +20,4 @@ export const reqVerifyUserData = (userData) => requests({url:"/user/login",data:
 export const reqRegisterUser = (user) => requests({method:"post",data:user,url:"/user/register"})
 
 // 个人信息的获取
-export const reqUserInfo = (user) => requests({method:"get",params:user,url:"/user/userinfo"})
+export const reqUserInfo = (data) => requests({url:"/user/getInfo/"+data, method:"get"})

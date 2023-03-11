@@ -23,10 +23,7 @@ export default {
   name: "Login",
   data() {
     return {
-      user: {
-        username: "",
-        password: ""
-      },
+      user: {},
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -40,11 +37,10 @@ export default {
     }
   },
   mounted() {
-    console.log("sb")
     if(sessionStorage.getItem("user")) {
-      this.user.username = JSON.parse(sessionStorage.getItem("user")).username
-      console.log(this.user.username)
-      this.user.password = JSON.parse(sessionStorage.getItem("user")).password
+      this.user = JSON.parse(sessionStorage.getItem("user"))
+      /*this.user.username = JSON.parse(sessionStorage.getItem("user")).username
+      this.user.password = JSON.parse(sessionStorage.getItem("user")).password*/
     }
   },
   methods: {

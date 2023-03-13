@@ -87,6 +87,26 @@ public class UserController {
         return Result.success(userService.getById(id));
     }
 
+    // 分页查询
+    //  接口路径：/user/page?pageNum=1&pageSize=10
+    // @RequestParam接受
+    //    limit第一个参数 = (pageNum - 1) * pageSize
+    // pageSize
+    /*
+    @GetMapping("/page")
+    public Map<String, Object> findPage(@RequestParam Integer pageNum,
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam String username) {
+        pageNum = (pageNum - 1) * pageSize;
+        username = "%" + username + "%";
+        List<User> data = userMapper.selectPage(pageNum, pageSize, username);
+        Integer total = userMapper.selectTotal(username);
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", data);
+        res.put("total", total);
+        return res;
+    }
+    **/
     /*
     * mybatisplus插件的自动的生成的分页器
     * */
@@ -174,7 +194,8 @@ public class UserController {
     /*
     * 之前没有统一封装结果的后台代码
     * */
-    /*@PostMapping
+    /*
+    @PostMapping
     public Boolean save(@RequestBody User user) {
         return userService.saveOrUpdate(user);
     }
@@ -197,7 +218,8 @@ public class UserController {
     @GetMapping("/{id}")
     public List<User> findOne(@PathVariable Integer id) {
         return userService.list();
-    }*/
+    }
+    * */
 
 }
 

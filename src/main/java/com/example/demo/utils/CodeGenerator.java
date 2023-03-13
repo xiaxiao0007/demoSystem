@@ -20,7 +20,7 @@ public class CodeGenerator {
                 .packageConfig(builder -> {
                     builder.parent("com.example.demo") // 设置父包名
                             .moduleName("") // 设置父包模块名
-                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "E:\\Java\\JavaProject\\demo\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, "E:\\Java\\JavaProject\\demo\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
                     builder.entityBuilder().enableLombok();

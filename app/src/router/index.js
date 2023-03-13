@@ -39,4 +39,25 @@ const router = new VueRouter({
   routes:routers,
 })
 
+// 配置路由前置守卫
+router.beforeEach(async (to,from,next) =>{
+  let token = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : null
+  if(token){
+    //已经登录还想去登录
+    if(to.path==='/login' || to.path==='/register'){
+        next("/manage")
+    }else{
+      // 已登录但是不是去登录页和注册页
+      next()
+    }
+  }else {
+    // 未登录的情况
+    let toPath = to.path
+    if (toPath.includes('/login') || toPath.includes('/register')) {
+      next()
+    }else if(toPath.includes('/manage')){ // 只要路径里面有/manage的字符串就定位到下一个页面
+      await this.router.push("/login")
+    }
+  }
+})
 export default router

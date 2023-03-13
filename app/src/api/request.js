@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from "@/router";
 
 const request = axios.create({
     // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
@@ -11,8 +12,10 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';//设置数据传输为json格式
-
-    // config.headers['token'] = user.token;  // 设置请求头
+    let user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : null
+    if(user){
+        config.headers['token'] = user.token;  // 设置请求头
+    }
     return config
 }, error => {
     return Promise.reject(error)
@@ -33,6 +36,11 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
         }
         return res;
+
+        // 当权限验证不通过的时候给出提示
+        if(res.code === 401){
+            router.push('/login')
+        }
     },
     error => {
         console.log('err' + error) // for debug

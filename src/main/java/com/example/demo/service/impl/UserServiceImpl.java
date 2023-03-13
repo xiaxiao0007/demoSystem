@@ -10,6 +10,7 @@ import com.example.demo.exception.ServiceException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.demo.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if(user != null){
             // 这段代码不具有通用性，既耦合度过高
             BeanUtils.copyProperties(user,userDTO);
+            // 设置Token
+            String token = JwtUtil.createToken(user);
+            userDTO.setToken(token);
             return userDTO;
         }else{
             throw new ServiceException(Code.CODE_600.getCode(), "用户名或密码错误");

@@ -45,6 +45,7 @@ export default {
       if( this.user.avatarUrl != ""){
         url = this.request.defaults.baseURL + this.user.avatarUrl
       }
+      console.log(url)
       return url
     }
   },

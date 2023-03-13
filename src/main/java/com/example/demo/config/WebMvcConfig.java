@@ -13,6 +13,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         * addResourceHandler("/file/**")：访问映射的路径。
         * addResourceLocations(“file:D:/manager/”)：资源的绝对路径。
         * */
-        registry.addResourceHandler("/data/**").addResourceLocations("file:E:/Java/data/");
+        registry.addResourceHandler("/data/**").addResourceLocations("file:E:/Java/Data/");
     }
 }

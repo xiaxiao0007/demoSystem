@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@ControllerAdvice
+@ControllerAdvice // 切面，在适当的时机切入相应的程序
 public class GlobalExceptionHandler {
     /**
-     * @ExceptionHandler相当于controller的@RequestMapping
+     * @ExceptionHandler相当于controller的@RequestMapping 异常定位调用
      * 如果抛出的的是ServiceException，则调用该方法
      * @param se 业务异常
      * @return

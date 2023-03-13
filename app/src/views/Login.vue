@@ -53,6 +53,7 @@ export default {
     },*/
     login() {
       // 表达验证
+      console.log(this)
       this.$refs['userForm'].validate( async (valid) => {
         if (valid) {  // 表单校验合法
           let result = await this.$API.reqVerifyUserData(this.user)

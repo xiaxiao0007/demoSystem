@@ -20,3 +20,7 @@ mybatis-plus:
 #  level:
 #    root: info
 
+file:
+  upload:
+    path: D:/Java/Data/
+

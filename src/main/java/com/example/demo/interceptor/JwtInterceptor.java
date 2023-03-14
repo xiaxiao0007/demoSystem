@@ -24,8 +24,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(!(handler instanceof HandlerMethod)){
             return true;
         }
-        /*HandlerMethod handlerMethod=(HandlerMethod)handler;
-        Method method=handlerMethod.getMethod();*/
+        /*
+        HandlerMethod handlerMethod=(HandlerMethod)handler;
+        Method method=handlerMethod.getMethod();
+        * */
         if(token == null){
             throw new ServiceException(Code.CODE_401.getCode(),"无token");
         }
@@ -36,8 +38,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         Integer id = userInfo.get("id").asInt();
-        /*String username = userInfo.get("username").asString();
-        String password = userInfo.get("password").asString();*/
+        /*
+        String username = userInfo.get("username").asString();
+        String password = userInfo.get("password").asString();
+        * */
         // 根据token中的userid查询数据库
         User user = userService.getById(id);
         if(user == null){

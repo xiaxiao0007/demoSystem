@@ -22,5 +22,5 @@ mybatis-plus:
 
 file:
   upload:
-    path: D:/Java/Data/
+    path: D:/java/data/ # springboot中路径名不区分大小写
 

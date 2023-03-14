@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import cn.hutool.core.io.FileUtil;
 import com.example.demo.common.Result;
 import com.example.demo.service.IFileService;
 import jakarta.annotation.Resource;

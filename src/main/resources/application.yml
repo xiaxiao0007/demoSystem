@@ -20,7 +20,8 @@ mybatis-plus:
 #  level:
 #    root: info
 
+# springboot中路径名不区分大小写
 file:
   upload:
-    path: D:/java/data/ # springboot中路径名不区分大小写
+    path: D:/Java/file/
 

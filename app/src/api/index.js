@@ -21,3 +21,6 @@ export const reqRegisterUser = (user) => requests({method:"post",data:user,url:"
 
 // 个人信息的获取
 export const reqUserInfo = (data) => requests({url:"/user/getInfo/"+data, method:"get"})
+
+// 文件信息的获取
+export const reqAllFileData = (data) =>requests({ url: "/file/page", params:data, method: "get" });

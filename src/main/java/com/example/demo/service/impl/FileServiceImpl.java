@@ -9,13 +9,17 @@ import com.example.demo.entity.Files;
 import com.example.demo.mapper.FileMapper;
 import com.example.demo.service.IFileService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -40,9 +44,9 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
 
         // 本来相同的图片的路径都可以存在数据库当中
         // 使用时间戳来表示一个存储的文件,既重新命名
-        LocalDateTime localDateTime = LocalDateTime.now();
+        long timeMillis = System.currentTimeMillis();
         // 文件的新名字
-        String fileNewName = localDateTime + StrUtil.DOT + type;
+        String fileNewName = timeMillis + StrUtil.DOT + type;
 
         File uploadFile = new File(fileUploadPath + fileNewName); // 上传的文件绝对路径
         //判断存储文件的路径
@@ -65,7 +69,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
             // 上传到磁盘之上
             file.transferTo(uploadFile);
             // 数据库若不存在重复文件，则不删除刚才上传的文件
-            url = "/data/"+originalFilename;
+            url = "/data/"+fileNewName;
         }
 
         // 存储到数据库之中
@@ -78,5 +82,22 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
         fileMapper.insert(files);
 
         return url;
+    }
+
+    @Override
+    public Boolean download(String id, HttpServletResponse response) throws IOException {
+        // 根据文件唯一表示码获取文件
+        File downloadFilePath = new File(fileUploadPath + id);
+        // 设置输出格式
+        ServletOutputStream os = response.getOutputStream();
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(id, "UTF-8"));
+        response.setContentType("application/octet-stream");
+
+        // 读取文件的字节流
+        os.write(FileUtil.readBytes(downloadFilePath));
+        os.flush();
+        os.close();
+
+        return true;
     }
 }

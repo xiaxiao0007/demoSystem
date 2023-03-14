@@ -26,11 +26,19 @@ export default [
                 }
             },
             {
-                path: '/person',
+                path: 'person',
                 name:'person',
                 component:() => import('../views/Person.vue'),
                 meta: {
                     name:'个人信息'
+                }
+            },
+            {
+                path: 'file',
+                name:'file',
+                component:() => import('../views/File.vue'),
+                meta: {
+                    name:'文件管理'
                 }
             },
         ],

@@ -19,6 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         * addResourceLocations(“file:D:/manager/”)：资源的绝对路径。
         * */
 
-        registry.addResourceHandler("/data/**").addResourceLocations("file:" + filePath);
+        registry.addResourceHandler("/file/**").addResourceLocations("file:" + filePath);
     }
 }

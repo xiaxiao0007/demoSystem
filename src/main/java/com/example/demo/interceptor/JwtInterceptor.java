@@ -15,8 +15,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.util.Map;
 
 public class JwtInterceptor implements HandlerInterceptor {
+
     @Resource
     private IUserService userService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");// 从 http 请求头中取出 token
@@ -47,7 +49,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(user == null){
             throw new ServiceException(Code.CODE_401.getCode(),"用户不存在，请重新登陆");
         }
-
         return true;
     }
 }

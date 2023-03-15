@@ -18,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -97,7 +95,14 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
         os.write(FileUtil.readBytes(downloadFilePath));
         os.flush();
         os.close();
-
         return true;
+    }
+
+    @Override
+    public boolean delOneFile(Integer id) {
+        Files files = fileMapper.selectById(id);
+        files.setIsDelete(true);
+        fileMapper.updateById(files);// 传入的参数，
+        return false;
     }
 }

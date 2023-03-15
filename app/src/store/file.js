@@ -17,11 +17,10 @@ const actions = {
     },
 };
 const getters ={
-    tableData(state) {
-        console.log(state.fileData.records)
+    fileTableData(state) {
         return  state.fileData.records || [];
     },
-    totals(state){
+    fileTotal(state){
         return state. fileData.total;
     }
 };

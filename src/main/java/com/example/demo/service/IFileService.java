@@ -12,4 +12,7 @@ public interface IFileService extends IService<Files> {
     String upload(MultipartFile file) throws IOException;
 
     Boolean download(String uuid, HttpServletResponse response) throws IOException;
+
+    boolean delOneFile(Integer id);
+
 }

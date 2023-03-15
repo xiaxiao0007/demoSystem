@@ -22,7 +22,7 @@ public class Files {
 
     private String md5;
 
-    private Integer isDelete;
+    private Boolean isDelete;
 
-    private Integer enable;
+    private Boolean enable;
 }

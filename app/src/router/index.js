@@ -55,8 +55,8 @@ router.beforeEach(async (to,from,next) =>{
     let toPath = to.path
     if (toPath.includes('/login') || toPath.includes('/register')) {
       next()
-    }else if(toPath.includes('/manage')){ // 只要路径里面有/manage的字符串就定位到下一个页面
-      await this.router.push("/login")
+    }else if(toPath.includes("/manage")){
+      await router.push("/login")
     }
   }
 })

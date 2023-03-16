@@ -34,18 +34,25 @@ export default {
     return{
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse_Header:this.isCollapse,
-      user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {}
+      user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
   },
   props:['isCollapse'],
+  mounted() {
+    this.$bus.$on('imageUrl',(data) =>{
+      this.user.avatarUrl = data
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('imageUrl')
+  },
   computed:{
     avatarUrl(){
       let url = null;
-      this.user.avatarUrl = this.user.avatarUrl || "" // 如何避免undefined造成的影响
-      if( this.user.avatarUrl != ""){
-        url = this.request.defaults.baseURL + this.user.avatarUrl
+      let headImageUrl = this.user.avatarUrl // 如何避免undefined造成的影响
+      if( headImageUrl != undefined || headImageUrl != "" || headImageUrl != null ){
+        url = this.request.defaults.baseURL + headImageUrl
       }
-      console.log(url)
       return url
     }
   },
@@ -61,8 +68,8 @@ export default {
       }
     },
     logout(){
+      sessionStorage.removeItem("user"); // 先push的话，token还在，所以走有token的那个分支，所以会出错，退出不了
       this.$router.push("/login")
-      sessionStorage.removeItem("user");
       this.$message.success("退出成功")
     }
   },

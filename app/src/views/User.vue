@@ -219,7 +219,7 @@ export default {
       })*/
     },
     exp(){
-      window.open("http://localhost:9090/user/export")
+      window.open(this.request.defaults.baseURL+"/user/export")
     },
     reset(){
       this.username = "";

@@ -35,7 +35,7 @@ public class FileController {
     /*
     * 在前端下载文件 文件的下载
     * */
-    @GetMapping("/{fileUUID}")//  通过response将文件上传出去
+    @GetMapping("/data/{fileUUID}")//  通过response将文件上传出去
     public void download(@PathVariable String fileUUID, HttpServletResponse response) throws IOException{
         fileService.download(fileUUID,response);
     }

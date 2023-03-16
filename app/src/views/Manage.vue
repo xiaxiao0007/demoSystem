@@ -13,7 +13,7 @@ import TypeNav from "@/views/TypeNav.vue";
 import Header from "@/views/Header.vue";
 export default {
   name: "Manage",
-  components:{TypeNav,Header}
+  components:{TypeNav,Header},
 }
 </script>
 

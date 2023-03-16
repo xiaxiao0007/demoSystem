@@ -83,7 +83,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
     }
 
     @Override
-    public Boolean download(String id, HttpServletResponse response) throws IOException {
+    public void download(String id, HttpServletResponse response) throws IOException {
         // 根据文件唯一表示码获取文件
         File downloadFilePath = new File(fileUploadPath + id);
         // 设置输出格式
@@ -95,7 +95,6 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, Files> implements I
         os.write(FileUtil.readBytes(downloadFilePath));
         os.flush();
         os.close();
-        return true;
     }
 
     @Override

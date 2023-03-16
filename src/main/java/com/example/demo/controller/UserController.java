@@ -126,7 +126,7 @@ public class UserController {
     * 导出数据
     * */
     @GetMapping("/export")
-    public Result export(HttpServletResponse response) throws Exception{
+    public void export(HttpServletResponse response) throws Exception{
         // 从数据库中查询数据
         List<User> list = userService.list();
         // 在内存操作，写出浏览器
@@ -147,6 +147,9 @@ public class UserController {
         writer.write(list,true);
 
         // 设置浏览器的响应格式
+        /*
+        * 已经设置响应的格式了，信息传递的方式了，不需要额外的提供相应的操作了
+        * */
         response.setContentType("application/vnd.openxmlformats-officdocument.spreadsheetml.sheet;charset=utf-8");
         String fileName = URLEncoder.encode("用户信息","utf-8");
         response.setHeader("Content-Disposition","attachment;filename="+fileName+".xlsx");
@@ -155,8 +158,6 @@ public class UserController {
         writer.flush(out,true);
         out.close();
         writer.close();
-
-        return Result.success();
     }
 
     /*

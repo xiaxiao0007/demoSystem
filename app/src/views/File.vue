@@ -133,7 +133,9 @@ export default {
     reset(){
       this.name = ''
     },
-    download(url){
+    download(name){
+      let url = this.request.defaults.baseURL + '/file'+name
+      console.log(url)
       window.open(url)
     },
     changeEnable(row) {

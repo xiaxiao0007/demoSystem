@@ -51,7 +51,7 @@ export default {
   computed:{
     avatarUrl(){
       let url = null;
-      let headImageUrl = this.form.avatarUrl // 如何避免undefined造成的影响
+      let headImageUrl = this.form.avatarUrl  // 如何避免undefined造成的影响
       if( headImageUrl != undefined || headImageUrl != "" || headImageUrl != null ){
         url = this.request.defaults.baseURL + headImageUrl
       }

@@ -12,7 +12,7 @@
         <el-form-item prop="password">
           <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.confirmPassword"></el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="nickname">
           <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.nickname"></el-input>
         </el-form-item>
         <el-form-item style="margin: 10px 0; text-align: right">
@@ -44,7 +44,7 @@ export default {
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         nickname: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { required: true, message: '请输入昵称', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
       }

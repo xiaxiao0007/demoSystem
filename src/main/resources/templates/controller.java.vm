@@ -1,6 +1,5 @@
 package ${package.Controller};
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;

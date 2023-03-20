@@ -41,6 +41,14 @@ export default [
                     name:'文件管理'
                 }
             },
+            {
+                path:'role',
+                name:'role',
+                component:()=>import('../views/Role.vue'),
+                meta: {
+                    name:'角色管理'
+                }
+            }
         ],
     },
     {

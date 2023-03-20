@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Options;
 
 /**
  * <p>
@@ -20,4 +21,8 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select count(*) from sys_user where username like concat('%', #{username}, '%') ")
     Integer selectTotal(String username);
     **/
+
+    @Override
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(User entity);
 }

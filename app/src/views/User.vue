@@ -198,8 +198,6 @@ export default {
     },
     async delBatch() {
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
-      console.log(ids)
-      console.log(typeof ids)
       let result = await this.$API.reqDeleteBatchUser(ids);
       if(result.code == 200){
         this.$message.success("批量删除成功")

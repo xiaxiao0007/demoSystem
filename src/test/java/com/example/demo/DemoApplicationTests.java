@@ -10,4 +10,9 @@ class DemoApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void Path(){
+		System.out.println(System.getProperty("user.dir"));
+	}
+
 }

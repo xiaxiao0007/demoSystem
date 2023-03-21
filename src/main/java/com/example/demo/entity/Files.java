@@ -9,7 +9,7 @@ import lombok.Data;
 @TableName("sys_file")
 public class Files {
 
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
     private String name;

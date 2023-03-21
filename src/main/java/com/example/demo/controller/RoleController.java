@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.common.Result;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import java.util.List;
@@ -35,6 +37,12 @@ public class RoleController {
         return roleService.removeById(id);
     }
 
+    @PostMapping("/del/batch")
+    public Result deleteBatch(@RequestBody List<Integer> ids){
+        roleService.removeBatchByIds(ids);
+        return Result.success();
+    }
+
     @GetMapping
     public List<Role> findAll() {
         return roleService.list();
@@ -47,8 +55,28 @@ public class RoleController {
 
     @GetMapping("/page")
     public Page<Role> findPage(@RequestParam Integer pageNum,
-                                @RequestParam Integer pageSize) {
-        return roleService.page(new Page<>(pageNum, pageSize));
+                               @RequestParam Integer pageSize,
+                               @RequestParam(defaultValue = "") String name) {
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(!"".equals(name),"name",name);
+        return roleService.page(new Page<>(pageNum, pageSize),queryWrapper);
+    }
+
+    /**
+     * 绑定角色和菜单的关系
+     * @param roleId 角色id
+     * @param menuIds 菜单id数组
+     * @return
+     */
+    @PostMapping("/roleMenu/{roleId}")
+    public Result roleMenu(@PathVariable Integer roleId, @RequestBody List<Integer> menuIds) {
+        roleService.setRoleMenu(roleId, menuIds);
+        return Result.success();
+    }
+
+    @GetMapping("/roleMenu/{roleId}")
+    public Result getRoleMenu(@PathVariable Integer roleId) {
+        return Result.success( roleService.getRoleMenu(roleId));
     }
 
 }

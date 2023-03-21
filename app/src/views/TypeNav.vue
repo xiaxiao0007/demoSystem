@@ -30,6 +30,10 @@
           <i class="el-icon-user"></i>
           <span slot="title">角色管理</span>
         </el-menu-item>
+        <el-menu-item index="/manage/menu">
+          <i class="el-icon-connection"></i>
+          <span slot="title">路径管理</span>
+        </el-menu-item>
         <el-menu-item index="/manage/file">
           <i class="el-icon-document"></i>
           <span slot="title">文件管理</span>

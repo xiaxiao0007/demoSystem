@@ -66,7 +66,7 @@ public class ${table.controllerName} {
 
     @GetMapping("/page")
     public Page<${entity}> findPage(@RequestParam Integer pageNum,
-                                @RequestParam Integer pageSize) {
+                                    @RequestParam Integer pageSize) {
         return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize));
     }
 

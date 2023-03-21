@@ -48,6 +48,14 @@ export default [
                 meta: {
                     name:'角色管理'
                 }
+            },
+            {
+                path:'menu',
+                name:'menu',
+                component:()=>import('../views/Menu.vue'),
+                meta: {
+                    name:'路径管理'
+                }
             }
         ],
     },

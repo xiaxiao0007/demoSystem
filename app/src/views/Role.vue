@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin:10px 10px 0 5px;">
-      <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
+      <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="name"></el-input>
       <el-button class="ml-5" type="primary"  @click="getData">搜索</el-button>
       <el-button class="ml-5" type="primary"  @click="reset">重置</el-button>
     </div>
@@ -22,13 +22,13 @@
     <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column prop="id" label="id" width="50"></el-table-column>
-      <el-table-column prop="username" label="姓名" width="140"></el-table-column>
-      <el-table-column prop="nickname" label="昵称" width="120"></el-table-column>
-      <el-table-column prop="phone" label="电话" width="120"></el-table-column>
-      <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="200" align="center"></el-table-column>
+      <el-table-column prop="flag" label="唯一标识"></el-table-column>
+      <el-table-column prop="description" label="描述" width="500" align="center"></el-table-column>
       <el-table-column label="操作"  width="auto" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click = "handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
+          <el-button type="info" @click = "allocationPower(scope.row)">分配菜单权限<i class="el-icon-menu"></i></el-button>
+          <el-button type="success" @click = "handleEdit(scope.row)">编辑<i class="el-icon-edit"></i></el-button>
           <el-popconfirm
               class="ml-5"
               confirm-button-text='确定'
@@ -43,6 +43,54 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="padding: 10px 0">
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNum"
+          :page-sizes="[2, 5, 10, 20]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+      </el-pagination>
+    </div>
+
+    <el-dialog title="用户信息" :visible.sync="dialogFormVisible" width="30%" >
+      <el-form label-width="80px" size="small">
+        <el-form-item label="名称">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="唯一标识">
+          <el-input v-model="form.flag" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="form.description" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="菜单分配" :visible.sync="menuVisible" width="30%" >
+      <el-tree
+      :props="props"
+      :data="menuData"
+      show-checkbox
+      node-key="id"
+      ref="tree"
+      :default-expanded-keys="expends"
+      :default-checked-keys="checks">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span><i :class="data.icon"></i> {{ data.name }}</span>
+      </span>
+      </el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="menuVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleMenu">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,7 +99,24 @@ export default {
   name: "role",
   data(){
     return{
+      name:'',
+      pageNum: 1,
+      pageSize: 5,
+      form:{},
+      tableData:{},
+      total:0,
+      dialogFormVisible:false,
+      menuVisible:false,
       multipleSelection:[],
+      menuData: [],
+      props: {
+        label: 'name',
+      },
+      expends: [],
+      checks: [],
+      roleId: 0,
+      roleFlag: '',
+      ids: []
     }
   },
   created() {
@@ -59,30 +124,85 @@ export default {
   },
   methods:{
     getData(){
-
+      this.request.get("/role/page",{
+        params:{
+          pageNum:this.pageNum,
+          pageSize:this.pageSize,
+          name:this.name,
+        }
+      }).then(res => {
+        this.tableData = res.records
+        this.total = res.total
+      })
     },
     reset(){
-
+      this.name = '';
+      this.getData();
     },
-    handleEdit(){
-
+    handleEdit(row){
+      this.form =  JSON.parse(JSON.stringify(row))
+      this.dialogFormVisible = true
     },
-    del(){
-
+    del(id){
+      this.request.delete("/role/" + id).then(res => {
+        if (res) {
+         this.$message.success("删除成功")
+         this.getData()
+       } else {
+         this.$message.error("删除失败")
+       }
+     })
     },
     delBatch(){
-
+      let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
+      this.request.post("/role/del/batch", ids).then(res => {
+        if (res.code === '200') {
+         this.$message.success("批量删除成功")
+         this.getData()
+        } else {
+         this.$message.error("批量删除失败")
+        }
+     })
     },
     handleAdd(){
-
+      this.dialogFormVisible = true
+      this.form = {}
     },
     handleSelectionChange(val) {
+      console.log(val)
       this.multipleSelection = val
     },
+    save(){
+      this.request.post("/role", this.form).then(res => {
+       if (res) {
+         this.$message.success("保存成功")
+         this.dialogFormVisible = false
+         this.getData()
+       } else {
+          this.$message.error("保存失败")
+       }
+     })
+    },
+    handleSizeChange(pageSize){
+      this.pageSize = pageSize;
+    },
+    handleCurrentChange(pageNum){
+      this.pageNum = pageNum
+    },
+    allocationPower(role){
+      this.roleId = role.id
+      this.roleFlag = role.flag
+      this.menuVisible = true
+    },
+    saveRoleMenu(){
+
+    }
   },
 }
 </script>
 
 <style scoped>
-
+.headerBg {
+  background: #eee!important;
+}
 </style>

@@ -39,25 +39,14 @@ export default {
   mounted() {
     if(sessionStorage.getItem("user")) {
       this.user = JSON.parse(sessionStorage.getItem("user"))
-      /*this.user.username = JSON.parse(sessionStorage.getItem("user")).username
-      this.user.password = JSON.parse(sessionStorage.getItem("user")).password*/
     }
   },
   methods: {
-    /*autologin(){
-      console.log("sb")
-      if(sessionStorage.getItem("user")){
-        this.user.username = JSON.parse(sessionStorage.getItem("user")).username
-        this.user.password = JSON.parse(sessionStorage.getItem("user")).password
-      }
-    },*/
     login() {
       // 表达验证
-      console.log(this)
       this.$refs['userForm'].validate( async (valid) => {
         if (valid) {  // 表单校验合法
           let result = await this.$API.reqVerifyUserData(this.user)
-          console.log(result)
           if(result.code == 200) {
             sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
             await this.$router.push("/manage")

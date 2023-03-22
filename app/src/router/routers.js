@@ -54,7 +54,7 @@ export default [
                 name:'menu',
                 component:()=>import('../views/Menu.vue'),
                 meta: {
-                    name:'路径管理'
+                    name:'菜单管理'
                 }
             }
         ],

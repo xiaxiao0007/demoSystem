@@ -98,12 +98,12 @@
 export default {
   name: "role",
   data(){
-    return{
+    return {
       name:'',
       pageNum: 1,
       pageSize: 5,
       form:{},
-      tableData:{},
+      tableData:[],
       total:0,
       dialogFormVisible:false,
       menuVisible:false,
@@ -114,12 +114,12 @@ export default {
       },
       expends: [],
       checks: [],
-      roleId: 0,
+      roleId: 0, // 角色管理的id
       roleFlag: '',
       ids: []
     }
   },
-  created() {
+  mounted() {
     this.getData();
   },
   methods:{
@@ -169,7 +169,7 @@ export default {
       this.form = {}
     },
     handleSelectionChange(val) {
-      console.log(val)
+      // console.log(val)
       this.multipleSelection = val
     },
     save(){
@@ -189,13 +189,41 @@ export default {
     handleCurrentChange(pageNum){
       this.pageNum = pageNum
     },
+
     allocationPower(role){
       this.roleId = role.id
       this.roleFlag = role.flag
+
+      this.request.get("/menu").then(res => {
+        this.menuData = res.data
+        // 把后台返回的菜单数据处理成id数据
+        this.expends = this.menuData.map(v => v.id)
+      })
+
+      this.request.get("/role/roleMenu/" + role.id).then(
+        res =>{
+          // console.log(res.data)
+          this.checks = res.data
+          // console.log(this.checks)
+
+        }
+      )
+
       this.menuVisible = true
+
     },
     saveRoleMenu(){
-
+      this.request.post("/role/roleMenu/" + this.roleId, this.$refs.tree.getCheckedKeys()).then(
+        res => {
+          // console.log(this.$refs.tree.getCheckedKeys())
+          if (res.code === '200') {
+            this.$message.success("保存成功")
+            this.menuVisible = false
+          } else {
+            this.$message.error(res.msg)
+          }
+        }
+      )
     }
   },
 }

@@ -55,4 +55,7 @@ public class User implements Serializable {
     @Alias("头像地址")
     private String avatarUrl;
 
+    @Alias("角色")
+    private String role;
+
 }

@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /*
-        * 图片上传问题？
+        * 图片上传出现的问题
         * addResourceHandler("/file/**")：访问映射的路径。
         * addResourceLocations(“file:D:/manager/”)：资源的绝对路径。
         * */

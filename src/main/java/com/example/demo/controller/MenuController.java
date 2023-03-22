@@ -32,6 +32,7 @@ public class MenuController {
     @Resource
     private DictMapper dictMapper;
 
+    // 获取menu表的信息
     @GetMapping
     public Result findAll(@RequestParam(defaultValue = "") String name) {
         return Result.success(menuService.findMenus(name));
@@ -45,7 +46,7 @@ public class MenuController {
 
     @GetMapping("/icons")
     public Result getIcons(){
-        // 图标对应的String值，key-string键值对
+        // 通过type类型确定要查询的键值对代表什么类型的键值对
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", Code.DICT_TYPE_ICON.getCode());
         return Result.success(dictMapper.selectList(queryWrapper));

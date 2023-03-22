@@ -31,7 +31,7 @@ request.interceptors.response.use(
             return res
         }
         // 兼容服务端返回的字符串数据
-        console.log(res)
+        // console.log(res)
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }

@@ -32,7 +32,7 @@
         </el-menu-item>
         <el-menu-item index="/manage/menu">
           <i class="el-icon-connection"></i>
-          <span slot="title">路径管理</span>
+          <span slot="title">菜单管理</span>
         </el-menu-item>
         <el-menu-item index="/manage/file">
           <i class="el-icon-document"></i>

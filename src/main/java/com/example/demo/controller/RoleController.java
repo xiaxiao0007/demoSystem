@@ -27,6 +27,7 @@ public class RoleController {
     @Resource
     private IRoleService roleService;
 
+    // 保存或者更新用户数据
     @PostMapping
     public Boolean save(@RequestBody Role role) {
         return roleService.saveOrUpdate(role);

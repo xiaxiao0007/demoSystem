@@ -55,7 +55,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
              * 再从数据库中取出id,前面并不知道相应的id是多少
              * */
             Integer id = userMapper.insert(user);
-            System.out.println("============================================"+id);
             userDTO.setId(id);
         }else {
             throw new ServiceException(Code.CODE_600.getCode(),"用户已存在");

@@ -32,15 +32,22 @@
       <el-button type="primary" @click="exp" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
-    <el-table :data="tableData" border stripe :header-cell-class-name="headerBg" @selection-change="handleSelectionChange">
+    <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column prop="id" label="id" width="50"></el-table-column>
-      <el-table-column prop="username" label="姓名" width="140"></el-table-column>
+      <el-table-column prop="username" label="姓名" width="120"></el-table-column>
+      <el-table-column prop="role" label="角色" width="120">
+        <template slot-scope="scope">
+          <el-tag type="primary" v-if="scope.row.role === 'ROLE_ADMIN'">管理员</el-tag>
+          <el-tag type="warning" v-if="scope.row.role === 'ROLE_TEACHER'">老师</el-tag>
+          <el-tag type="success" v-if="scope.row.role === 'ROLE_STUDENT'">学生</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="nickname" label="昵称" width="120"></el-table-column>
-      <el-table-column prop="phone" label="电话" width="120"></el-table-column>
-      <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
-      <el-table-column label="操作"  width="200" align="center">
+      <el-table-column prop="phone" label="电话" width="200"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
+      <el-table-column prop="address" label="地址" width="200"></el-table-column>
+      <el-table-column label="操作"  width="auto" align="center">
         <template slot-scope="scope">
           <el-button type="success" @click = "handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <el-popconfirm
@@ -77,6 +84,11 @@
         <el-form-item label="昵称">
           <el-input v-model="form.nickname" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="角色">
+          <el-select clearable v-model="form.role" placeholder="请选择" style="width: 100%">
+            <el-option v-for="item in roles" :key="item.name" :label="item.name" :value="item.flag"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="电话">
           <el-input v-model="form.phone" autocomplete="off"></el-input>
         </el-form-item>
@@ -110,36 +122,17 @@ export default {
       form: {},
       dialogFormVisible:false,
       multipleSelection: [],
-      headerBg: 'headerBg'
+      roles:[]
     }
   },
   mounted(){
     this.getData()
   },
   computed:{
-      ...mapGetters(['tableData','totals'])
+      ...mapGetters(['tableData','totals','options'])
   },
   methods: {
     getData(){
-      /*请求分页查询的数据
-      fetch("http://localhost:9090/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize).then(res => res.json()).then(res => {
-        // console.log(res)
-        this.tableData = res.pageData
-        this.total = res.total
-      })
-      this.request.get("/user/page",{
-        params:{
-          pageNum:this.pageNum,
-          pageSize:this.pageSize,
-          username:this.username,
-          email:this.email,
-          address:this.address,
-        }
-      }).then(res => {
-        // console.log(res)
-        this.tableData = res.data.records
-        this.total = res.data.total
-      })*/
       this.$store.dispatch('getAllUserData',{
           pageNum:this.pageNum,
           pageSize:this.pageSize,
@@ -148,17 +141,12 @@ export default {
           address:this.address,
         }
       )
+
+      this.request.get("/role").then(res =>{
+        this.roles = res.data
+      })
     },
-   async save() {
-      /*this.request.post("/user", this.form).then(res => {
-        if (res) {
-          this.$message.success("保存成功")
-          this.dialogFormVisible = false
-          this.getData()
-        } else {
-           this.$message.error("保存失败")
-        }
-      })*/
+    async save() {
        let result = await  this.$API.reqAddUser(this.form);
        if(result.code == 200){
          this.$message.success("保存成功")
@@ -177,14 +165,6 @@ export default {
       this.dialogFormVisible = true
     },
     async del(id){
-      /*this.request.delete("/user/" + id).then(res => {
-        if (res) {
-          this.$message.success("删除成功")
-          this.getData()
-        } else {
-          this.$message.error("删除失败")
-        }
-      })*/
       let result = await this.$API.reqDeleteOneUser(id)
         if (result.code == 200) {
           this.$message.success("删除成功")
@@ -205,16 +185,6 @@ export default {
       } else {
         this.$message.error("批量删除失败")
       }
-      /*let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
-      console.log()
-      this.request.post("/user/del/batch", ids).then(res => {
-        if (res) {
-          this.$message.success("批量删除成功")
-          this.getData()
-        } else {
-          this.$message.error("批量删除失败")
-        }
-      })*/
     },
     exp(){
       window.open(this.request.defaults.baseURL+"/user/export")

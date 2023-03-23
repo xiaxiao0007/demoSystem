@@ -30,13 +30,13 @@ VueRouter.prototype.replace = function(location,resolve,reject){
   }
 }
 
-import routers from "@/router/routers";
+import routes from "@/router/routes";
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   // 配置路由
-  routes:routers,
+  routes,
 })
 
 // 配置路由前置守卫

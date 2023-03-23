@@ -6,13 +6,20 @@ import com.example.demo.common.Code;
 import com.example.demo.entity.User;
 import com.example.demo.entity.dto.UserDTO;
 import com.example.demo.exception.ServiceException;
+import com.example.demo.mapper.RoleMapper;
+import com.example.demo.mapper.RoleMenuMapper;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.IMenuService;
+import com.example.demo.service.IRoleService;
 import com.example.demo.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,6 +37,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private IMenuService menuService;
+
     @Override
     public UserDTO login(UserDTO userDTO) {
         User user = getUserInfo(userDTO);
@@ -39,6 +55,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             // 设置Token
             String token = JwtUtil.createToken(user);
             userDTO.setToken(token);
+
+            String flag = userDTO.getRole(); // 获取角色ROLE_ADMIN 进行表的查询
+            // 通过唯一标识符获取角色roleId
+            Integer role_id = roleMapper.findIdByFlag(flag);
+            // 通过role_id获取菜单menu_id,也可以进行多表连查
+            List<Integer> menus = roleMenuMapper.selectByRoleId(role_id);
+            // 通过menu_id获取对应的路径
+
             return userDTO;
         }else{
             throw new ServiceException(Code.CODE_600.getCode(), "用户名或密码错误");

@@ -169,7 +169,6 @@ export default {
       this.form = {}
     },
     handleSelectionChange(val) {
-      // console.log(val)
       this.multipleSelection = val
     },
     save(){
@@ -189,8 +188,7 @@ export default {
     handleCurrentChange(pageNum){
       this.pageNum = pageNum
     },
-
-    allocationPower(role){
+    async allocationPower(role){
       this.roleId = role.id
       this.roleFlag = role.flag
 
@@ -200,17 +198,17 @@ export default {
         this.expends = this.menuData.map(v => v.id)
       })
 
-      this.request.get("/role/roleMenu/" + role.id).then(
-        res =>{
-          // console.log(res.data)
-          this.checks = res.data
-          // console.log(this.checks)
-
-        }
-      )
-
-      this.menuVisible = true
-
+      this.request.get("/role/roleMenu/" + role.id).then(res =>{
+        this.checks = res.data
+        this.ids.forEach(id => {
+          if(!this.checks.includes(id)){
+            this.$nextTick(()=>{ // $nextTick 渲染未来的元素
+              this.$refs.tree.setChecked(id,false)
+            })
+          }
+        })
+        this.menuVisible = true
+      })
     },
     saveRoleMenu(){
       this.request.post("/role/roleMenu/" + this.roleId, this.$refs.tree.getCheckedKeys()).then(

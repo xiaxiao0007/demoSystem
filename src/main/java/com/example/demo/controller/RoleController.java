@@ -45,8 +45,8 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Role> findAll() {
-        return roleService.list();
+    public Result findAll() {
+        return Result.success(roleService.list());
     }
 
     @GetMapping("/{id}")

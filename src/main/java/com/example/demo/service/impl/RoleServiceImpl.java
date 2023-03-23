@@ -45,7 +45,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         }
         List<Integer> menuIdsCopy = CollUtil.newArrayList(menuIds);
         for (Integer menuId : menuIds) {
-            /*Menu menu = menuService.getById(menuId);
+            Menu menu = menuService.getById(menuId);
             if (menu.getPid() != null && !menuIdsCopy.contains(menu.getPid())) { // 二级菜单 并且传过来的menuId数组里面没有它的父级id
                 // 那么我们就得补上这个父级id
                 RoleMenu roleMenu = new RoleMenu();
@@ -53,7 +53,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
                 roleMenu.setMenuId(menu.getPid());
                 roleMenuMapper.insert(roleMenu);
                 menuIdsCopy.add(menu.getPid());
-            }*/
+            }
             RoleMenu roleMenu = new RoleMenu();
             roleMenu.setRoleId(roleId);
             roleMenu.setMenuId(menuId);

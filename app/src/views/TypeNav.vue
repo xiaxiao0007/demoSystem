@@ -19,7 +19,7 @@
       </el-menu-item>
       <el-submenu index="">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="el-icon-s-grid"></i>
           <span slot="title">系统管理</span>
         </template>
         <el-menu-item index="/manage/user">
@@ -31,7 +31,7 @@
           <span slot="title">角色管理</span>
         </el-menu-item>
         <el-menu-item index="/manage/menu">
-          <i class="el-icon-connection"></i>
+          <i class="el-icon-menu"></i>
           <span slot="title">菜单管理</span>
         </el-menu-item>
         <el-menu-item index="/manage/file">

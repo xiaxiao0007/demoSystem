@@ -2,15 +2,11 @@ import { reqAllUserData } from '@/api'
 
 const state ={
     userdata: {},
-    // isAlterData:false,
 };
 const mutations = {
     ALLUSERDATA(state, userdata) {
         state.userdata = userdata;
     },
-    // ADDUSER(state, data){
-    //     state.isAlterData = data
-    // }
 };
 const actions = {
     //获取购物车列表数据
@@ -20,13 +16,6 @@ const actions = {
             context.commit("ALLUSERDATA", result.data);
         }
     },
-
-    // async getAddUser(context,data){
-    //     let result = await reqAddUser(data);
-    //     if(result.code == 200){
-    //         context.commit("ADDUSER",result.data)
-    //     }
-    // }
 };
 const getters ={
     tableData(state) {
@@ -34,7 +23,7 @@ const getters ={
     },
     totals(state){
         return state.userdata.total;
-    }
+    },
 };
 // 对外暴露
 export default {

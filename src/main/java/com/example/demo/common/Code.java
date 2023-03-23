@@ -13,7 +13,10 @@ public enum Code {
     CODE_500("500"), // 系统错误
     CODE_600("600"), // 其它业务错误
 
-    DICT_TYPE_ICON("icon")
+    DICT_TYPE_ICON("icon"),
+
+    ROLE_ADMIN("role_admin"),
+    ROLE_STUDENT("role_student"),
 
     ;//这些值都是枚举类型
 

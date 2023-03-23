@@ -3,12 +3,12 @@ package com.example.demo.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.example.demo.entity.Menu;
 import lombok.*;
 
+import java.util.List;
+
 @Data
-@Getter
-@Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
@@ -20,4 +20,6 @@ public class UserDTO {
     private String nickname;
     private String avatarUrl;
     private String token;
+    private String role;
+    private List<Menu> menus;
 }

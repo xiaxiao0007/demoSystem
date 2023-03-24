@@ -1,15 +1,15 @@
 export default [
     {
-        path:'/',
-        redirect: '/login',
+        path:"/",
+        redirect: "/login",
     },
     {
-        path: '/login',
+        path: "/login",
         name: "login",
         component:()=> import('../views/Login.vue')
     },
     {
-        path: '/register',
+        path: "/register",
         name: "register",
         component:()=> import('../views/Register.vue')
     },

@@ -74,12 +74,14 @@
     </el-dialog>
 
     <el-dialog title="菜单分配" :visible.sync="menuVisible" width="30%" >
+      <!-- check-strictly 取消父子关联 -->
       <el-tree
       :props="props"
       :data="menuData"
       show-checkbox
       node-key="id"
       ref="tree"
+      check-strictly
       :default-expanded-keys="expends"
       :default-checked-keys="checks">
       <span class="custom-tree-node" slot-scope="{ node, data }">
@@ -133,6 +135,11 @@ export default {
       }).then(res => {
         this.tableData = res.records
         this.total = res.total
+      })
+
+      // 获取菜单管理中的所有的按钮
+      this.request.get("/menu/ids").then(r => {
+        this.ids = r.data
       })
     },
     reset(){
@@ -200,20 +207,21 @@ export default {
 
       this.request.get("/role/roleMenu/" + role.id).then(res =>{
         this.checks = res.data
-        this.ids.forEach(id => {
+       /* this.checks.forEach(id => {
           if(!this.checks.includes(id)){
             this.$nextTick(()=>{ // $nextTick 渲染未来的元素
-              this.$refs.tree.setChecked(id,false)
+              this.$refs.tree.setChecked( id,false, false)
             })
           }
-        })
+        })*/
         this.menuVisible = true
       })
     },
     saveRoleMenu(){
       this.request.post("/role/roleMenu/" + this.roleId, this.$refs.tree.getCheckedKeys()).then(
         res => {
-          // console.log(this.$refs.tree.getCheckedKeys())
+          /*console.log(this.roleId)
+          console.log(this.$refs.tree.getCheckedKeys())*/
           if (res.code === '200') {
             this.$message.success("保存成功")
             this.menuVisible = false

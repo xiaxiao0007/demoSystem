@@ -40,9 +40,12 @@ const router = new VueRouter({
 })
 
 // 配置路由前置守卫
-/*router.beforeEach(async (to,from,next) =>{
+router.beforeEach(async (to,from,next) =>{
   let user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : null
-  let token = user.token
+  let token = null
+  if(user != null){
+    token = user.token;
+  }
   if(token){
     //已经登录还想去登录
     if(to.path==='/login' || to.path==='/register'){
@@ -60,5 +63,5 @@ const router = new VueRouter({
       await router.push("/login")
     }
   }
-})*/
+})
 export default router

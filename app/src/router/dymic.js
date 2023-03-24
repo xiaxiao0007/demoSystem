@@ -1,3 +1,4 @@
+/*
 export default [
     {
         path:'/manage',
@@ -55,4 +56,4 @@ export default [
             }
         ],
     },
-]
+]*/

@@ -7,6 +7,7 @@
              :collapse-transition="false"
              :collapse="isCollapse_TypeNav"
              router
+             :default-openeds="opens"
     >
       <div style="height: 60px; line-height: 60px; text-align: center">
         <img src="../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px; margin-right: 5px">
@@ -35,32 +36,6 @@
           </el-submenu>
         </div>
       </div>
-<!--      <el-menu-item index="/manage/home">
-        <i class="el-icon-s-home"></i>
-        <span slot="title">主页</span>
-      </el-menu-item>
-      <el-submenu index="/manage">
-        <template slot="title">
-          <i class="el-icon-s-grid"></i>
-          <span slot="title">系统管理</span>
-        </template>
-        <el-menu-item index="/manage/user">
-          <i class="el-icon-s-custom"></i>
-          <span slot="title">用户管理</span>
-        </el-menu-item>
-        <el-menu-item index="/manage/role">
-          <i class="el-icon-user"></i>
-          <span slot="title">角色管理</span>
-        </el-menu-item>
-        <el-menu-item index="/manage/menu">
-          <i class="el-icon-menu"></i>
-          <span slot="title">菜单管理</span>
-        </el-menu-item>
-        <el-menu-item index="/manage/file">
-          <i class="el-icon-document"></i>
-          <span slot="title">文件管理</span>
-        </el-menu-item>
-      </el-submenu>-->
     </el-menu>
   </el-aside>
 </template>

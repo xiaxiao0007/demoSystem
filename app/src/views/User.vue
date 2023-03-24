@@ -129,7 +129,7 @@ export default {
     this.getData()
   },
   computed:{
-      ...mapGetters(['tableData','totals','options'])
+      ...mapGetters(['tableData','totals'])
   },
   methods: {
     getData(){

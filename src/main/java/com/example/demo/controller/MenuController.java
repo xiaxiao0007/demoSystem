@@ -5,6 +5,7 @@ import com.example.demo.common.Code;
 import com.example.demo.common.Result;
 import com.example.demo.entity.Dict;
 import com.example.demo.mapper.DictMapper;
+import com.example.demo.mapper.MenuMapper;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import java.util.List;
@@ -62,6 +63,11 @@ public class MenuController {
     public Result deleteBatch(@RequestBody List<Integer> ids) {
         menuService.removeByIds(ids);
         return Result.success();
+    }
+
+    @GetMapping("/ids")
+    public Result getMenuIds(){
+        return Result.success(menuService.list().stream().map(Menu::getId));
     }
 
 }

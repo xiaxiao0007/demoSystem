@@ -49,7 +49,7 @@ export default {
           let result = await this.$API.reqVerifyUserData(this.user)
           if(result.code == 200) {
             sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
-            await this.$router.push("/manage")
+            await this.$router.push("/home")
             this.$message.success("登录成功")
           } else {
             this.$message.error(result.msg)

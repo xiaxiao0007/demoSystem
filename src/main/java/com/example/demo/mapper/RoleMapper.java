@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
-    @Select("select id from sys_role_menu where flag = #{flag}")
+    @Select("select id from sys_role where flag = #{flag}")
     Integer findIdByFlag(@Param("flag") String flag);
 
 }

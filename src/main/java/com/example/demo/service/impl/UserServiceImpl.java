@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.common.Code;
+import com.example.demo.entity.Menu;
 import com.example.demo.entity.User;
 import com.example.demo.entity.dto.UserDTO;
 import com.example.demo.exception.ServiceException;
@@ -19,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Resource
     private RoleMapper roleMapper;
 
-    @Autowired
+    @Resource
     private IMenuService menuService;
 
     @Override
@@ -56,12 +58,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             String token = JwtUtil.createToken(user);
             userDTO.setToken(token);
 
-            String flag = userDTO.getRole(); // 获取角色ROLE_ADMIN 进行表的查询
-            // 通过唯一标识符获取角色roleId
-            Integer role_id = roleMapper.findIdByFlag(flag);
-            // 通过role_id获取菜单menu_id,也可以进行多表连查
-            List<Integer> menus = roleMenuMapper.selectByRoleId(role_id);
-            // 通过menu_id获取对应的路径
+            String flag = user.getRole(); // 从User表中获取角色ROLE_ADMIN 进行表的查询
+            List<Menu> menus = getRoleMenus(flag);
+            userDTO.setMenus(menus);
 
             return userDTO;
         }else{
@@ -102,5 +101,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException(Code.CODE_500.getCode(),"系统错误");
         }
         return user;
+    }
+
+    // 获取符合要求的全部menus信息
+    private List<Menu> getRoleMenus(String roleFlag){
+        // 通过唯一标识符获取角色roleId
+        Integer roleId = roleMapper.findIdByFlag(roleFlag);
+        // 通过role_id获取菜单多个menu_id,也可以进行多表连查
+        List<Integer> menuIds = roleMenuMapper.selectByRoleId(roleId);
+        // 通过menu_id获取对应的路径
+        // 先通过""获取全部的menus
+        List<Menu> menus = menuService.findMenus("");
+        // 创建一个列表用于存放符合要求的menu
+        List<Menu> properMenus = new ArrayList<>();
+        for (Menu menu:menus) {
+            if(menuIds.contains(menu.getId())){
+                properMenus.add(menu);
+            }
+            List<Menu> children = menu.getChildren();
+            // removeIf()  移除 children 里面不在 menuIds集合中的 元素
+            children.removeIf(child -> !menuIds.contains(child.getId()));
+        }
+        return properMenus;
     }
 }

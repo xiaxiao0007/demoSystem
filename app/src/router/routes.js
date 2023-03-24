@@ -4,9 +4,19 @@ export default [
         redirect: '/login',
     },
     {
+        path: '/login',
+        name: "login",
+        component:()=> import('../views/Login.vue')
+    },
+    {
+        path: '/register',
+        name: "register",
+        component:()=> import('../views/Register.vue')
+    },
+    {
         path:'/manage',
         name:'manage',
-        redirect: '/manage/home',
+        redirect:'/manage/home',
         component: () => import('../views/Manage.vue'),
         children: [
             {
@@ -58,15 +68,5 @@ export default [
                 }
             }
         ],
-    },
-    {
-        path: '/login',
-        name: "login",
-        component:()=> import('../views/Login.vue')
-    },
-    {
-        path: '/register',
-        name: "register",
-        component:()=> import('../views/Register.vue')
-    },
+    }
 ]

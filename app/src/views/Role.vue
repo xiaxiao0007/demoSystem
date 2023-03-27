@@ -24,7 +24,7 @@
       <el-table-column prop="id" label="id" width="50"></el-table-column>
       <el-table-column prop="name" label="姓名" width="200" align="center"></el-table-column>
       <el-table-column prop="flag" label="唯一标识"></el-table-column>
-      <el-table-column prop="description" label="描述" width="500" align="center"></el-table-column>
+      <el-table-column prop="description" label="描述" align="center"></el-table-column>
       <el-table-column label="操作"  width="auto" align="center">
         <template slot-scope="scope">
           <el-button type="info" @click = "allocationPower(scope.row)">分配菜单权限<i class="el-icon-menu"></i></el-button>

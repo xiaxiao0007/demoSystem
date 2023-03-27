@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import {setRoutes} from "@/router";
+
 export default {
   name: "Login",
   data() {
@@ -49,8 +51,17 @@ export default {
           let result = await this.$API.reqVerifyUserData(this.user)
           if(result.code == 200) {
             sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
-            await this.$router.push("/manage/home")
+            // await this.$router.push("/")
+            // 动态设置当前用户的路由
+            // setRoutes()
+            // console.log(this.$router.getRoutes())
+            await this.$router.push('/')
             this.$message.success("登录成功")
+            /*if(result.data.role === 'ROLE_STUDENT'){
+
+            }else {
+              await this.$router.push('/')
+            }*/
           } else {
             this.$message.error(result.msg)
           }

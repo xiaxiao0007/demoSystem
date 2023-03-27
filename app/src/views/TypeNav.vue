@@ -15,7 +15,7 @@
       </div>
 
       <div v-for="item in menus" :key="item.id">
-        <div v-if="item.path == '/manage/home'">
+        <div v-if="item.path">
           <el-menu-item :index="item.path">
             <i :class="item.icon"></i>
             <span slot="title">{{ item.name }}</span>

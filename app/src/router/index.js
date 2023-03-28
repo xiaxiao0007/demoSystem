@@ -39,6 +39,15 @@ const router = new VueRouter({
   routes,
 })
 
+// 提供一个重置路由的方法
+export const resetRouter = () => {
+  router.matcher = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
+  })
+}
+
 export const setRoutes = ()=>{
   let user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : null;
   if(user){

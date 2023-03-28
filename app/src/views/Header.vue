@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import {resetRouter} from '@/router'
+
 export default {
   name: "Header",
   data(){
@@ -68,9 +70,8 @@ export default {
       }
     },
     logout(){
-      sessionStorage.removeItem("user"); // 先push的话，token还在，所以走有token的那个分支，所以会出错，退出不了
-      // 需要重置路由
-
+      sessionStorage.removeItem("user"); // 先push的话，token还在，所以走有token的那个分支，所以会出错，退出不了git
+      resetRouter();
       this.$router.push("/login")
       this.$message.success("退出成功")
     }

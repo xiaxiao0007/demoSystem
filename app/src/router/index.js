@@ -62,6 +62,9 @@ export const setRoutes = ()=>{
           name:'Manage',
           component:() => import('../views/Manage.vue'),
           redirect: "/home",
+          meta:{
+            name:"首页"
+          },
           children:[
             {
               path: 'person',
@@ -73,12 +76,26 @@ export const setRoutes = ()=>{
         const menus = storeMenus;
         menus.forEach(item => {
           if(item.path){ // 当且仅当path不为空的时候才去设置路由
-            let itemMenu = {path:item.path.replace("/",""),name: item.name,component:()=> import('../views/'+item.pagePath+'.vue')}
+            let itemMenu = {
+              path:item.path.replace("/",""),
+              name: item.name,
+              component:()=> import('../views/'+item.pagePath+'.vue'),
+              meta: {
+                name:item.name
+              }
+            }
             manageRoutes.children.push(itemMenu)
           }else if(item.children.length){
             item.children.forEach( item => {
               if(item.path){
-                let itemMenu = {path:item.path.replace("/",""),name: item.name,component:()=> import('../views/'+item.pagePath+'.vue')}
+                let itemMenu = {
+                  path:item.path.replace("/",""),
+                  name: item.name,
+                  component:()=> import('../views/'+item.pagePath+'.vue'),
+                  meta: {
+                    name:item.name
+                  }
+                }
                 manageRoutes.children.push(itemMenu)
               }
             })
@@ -106,7 +123,7 @@ router.beforeEach(async (to,from,next) =>{
       next("/home")
     }else{
       // 已登录但是不是去登录页和注册页
-      setRoutes()
+      // setRoutes()
       next()
     }
   }else {

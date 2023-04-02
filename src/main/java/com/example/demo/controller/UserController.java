@@ -36,7 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
 
    /*
@@ -112,15 +112,15 @@ public class UserController {
                            @RequestParam(defaultValue = "") String username,
                            @RequestParam(defaultValue = "") String email,
                            @RequestParam(defaultValue = "") String address) {
-            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            // QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             // 第一个参数：该参数是一个布尔类型，只有该参数是true时，才将like条件拼接到sql中；本例中，如果name字段不为空，则拼接name字段的like查询条件；
             // 第二个参数：该参数是数据库中的字段名；
             // 第三个参数：该参数值字段值；
-            queryWrapper.like(!"".equals(username),"username", username);
+            /*queryWrapper.like(!"".equals(username),"username", username);
             queryWrapper.like(!"".equals(email),"email", email);
             queryWrapper.like(!"".equals(address),"address",address);
-            queryWrapper.orderByDesc("id");
-        return Result.success(userService.page(new Page<>(pageNum, pageSize),queryWrapper));
+            queryWrapper.orderByDesc("id");* */
+        return Result.success(userService.findPage(new Page<>(pageNum, pageSize),username, email, address));
     }
 
     /*
@@ -186,6 +186,14 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody UserDTO userDTO){
         return Result.success(userService.register(userDTO));
+    }
+
+    @GetMapping("/role/{role}")
+    public Result getTeacherInfo(@PathVariable String role){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role",role);
+        List<User> list = userService.list(queryWrapper);
+        return Result.success(list);
     }
 
     /*

@@ -49,6 +49,8 @@
       <el-table-column prop="address" label="地址" width="200"></el-table-column>
       <el-table-column label="操作"  width="auto" align="center">
         <template slot-scope="scope">
+          <el-button type="primary" @click="lookCourse(scope.row.courses)" v-if="scope.row.role === 'ROLE_TEACHER'">查看教授课程 <i class="el-icon-document"></i></el-button>
+          <el-button type="warning" @click="lookStuCourse(scope.row.stuCourses)" v-if="scope.row.role === 'ROLE_STUDENT'">查看已选课程 <i class="el-icon-document"></i></el-button>
           <el-button type="success" @click = "handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <el-popconfirm
               class="ml-5"
@@ -105,6 +107,20 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="课程信息" :visible.sync="vis" width="30%" >
+      <el-table :data="courses" border stripe>
+        <el-table-column prop="name" label="课程名称"></el-table-column>
+        <el-table-column prop="score" label="学分"></el-table-column>
+      </el-table>
+    </el-dialog>
+
+    <el-dialog title="课程信息" :visible.sync="stuVis" width="30%" >
+      <el-table :data="stuCourses" border stripe>
+        <el-table-column prop="name" label="课程名称"></el-table-column>
+        <el-table-column prop="score" label="学分"></el-table-column>
+      </el-table>
+    </el-dialog>
+
   </el-main>
 </template>
 
@@ -122,7 +138,11 @@ export default {
       form: {},
       dialogFormVisible:false,
       multipleSelection: [],
-      roles:[]
+      roles:[],
+      courses:[],
+      vis:false,
+      stuCourses:[],
+      stuVis:false
     }
   },
   mounted(){
@@ -159,6 +179,14 @@ export default {
     handleAdd() {
       this.dialogFormVisible = true
       this.form = {}
+    },
+    lookCourse(courses){
+      this.courses = courses
+      this.vis = true
+    },
+    lookStuCourse(stuCourses){
+      this.stuCourses = stuCourses
+      this.stuVis = true
     },
     handleEdit(row) {
       this.form = row

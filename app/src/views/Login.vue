@@ -53,7 +53,7 @@ export default {
             sessionStorage.setItem("user",JSON.stringify(result.data)) // 存储用户信息到浏览器中
             // await this.$router.push("/")
             // 动态设置当前用户的路由
-            // setRoutes()
+            setRoutes()
             // console.log(this.$router.getRoutes())
             await this.$router.push('/')
             this.$message.success("登录成功")
